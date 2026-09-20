@@ -14,7 +14,7 @@ class TurnamenController extends Controller
 
         return response()->json([
             'message' => 'Daftar turnamen berhasil diambil',
-            'data' => $turnamen
+            'data' => $turnamen,
         ], 200);
     }
 
@@ -22,15 +22,15 @@ class TurnamenController extends Controller
     {
         $turnamen = Turnamen::find($id);
 
-        if (!$turnamen) {
+        if (! $turnamen) {
             return response()->json([
-                'message' => 'Data turnamen tidak ditemukan'
+                'message' => 'Data turnamen tidak ditemukan',
             ], 404);
         }
 
         return response()->json([
             'message' => 'Detail turnamen berhasil diambil',
-            'data' => $turnamen
+            'data' => $turnamen,
         ], 200);
     }
 
@@ -52,7 +52,7 @@ class TurnamenController extends Controller
 
         return response()->json([
             'message' => 'Data turnamen berhasil ditambahkan',
-            'data' => $turnamen
+            'data' => $turnamen,
         ], 201);
     }
 }
