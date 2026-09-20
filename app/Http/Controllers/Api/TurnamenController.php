@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Turnamen;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class TurnamenController extends Controller
 {
-    public function index()
+    public function index(): JsonResponse
     {
         $turnamen = Turnamen::all();
 
@@ -18,7 +19,7 @@ class TurnamenController extends Controller
         ], 200);
     }
 
-    public function show($id)
+    public function show(int|string $id): JsonResponse
     {
         $turnamen = Turnamen::find($id);
 
@@ -34,7 +35,7 @@ class TurnamenController extends Controller
         ], 200);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $request->validate([
             'nama' => 'required|string',
