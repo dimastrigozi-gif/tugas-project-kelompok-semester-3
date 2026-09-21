@@ -1,0 +1,15 @@
+
+**Catatan:** kalau ini untuk tugas kampus, isi README bisa kita sesuaikan persis dengan project dan ketentuan tugasmu, jadi nggak perlu memasukkan bagian yang tidak diminta.
+
+### 4. Simpan
+
+Tekan:
+
+**Ctrl + S**
+
+### 5. Masukkan ke GitHub
+
+Kalau project kamu **sudah terhubung ke GitHub**, buka terminal VS Code dan jalankan:
+
+```bash
+git add README.md
