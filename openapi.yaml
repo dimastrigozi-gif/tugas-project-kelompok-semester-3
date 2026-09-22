@@ -1,0 +1,414 @@
+```yaml
+openapi: 3.0.3
+
+info:
+  title: REST API Sistem Informasi Turnamen Esport
+  description: >
+    API untuk mengelola data turnamen esport pada
+    Sistem Informasi dan Tata Kelola Turnamen Esport.
+    API ini digunakan untuk mengelola informasi turnamen
+    yang dibuat oleh penyelenggara dan dapat diikuti oleh peserta.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Local Development Server
+
+tags:
+  - name: Turnamen
+    description: Operasi data turnamen esport
+
+paths:
+
+  /api/turnamen:
+
+    get:
+      tags:
+        - Turnamen
+      summary: Mengambil seluruh data turnamen
+      description: Mengembalikan daftar seluruh turnamen esport yang tersedia.
+      operationId: getAllTurnamen
+
+      responses:
+
+        '200':
+          description: Data turnamen berhasil ditemukan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TurnamenListResponse'
+
+        '500':
+          description: Terjadi kesalahan pada server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+    post:
+      tags:
+        - Turnamen
+      summary: Menambahkan turnamen baru
+      description: Menambahkan satu data turnamen esport baru.
+      operationId: createTurnamen
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TurnamenInput'
+
+            example:
+              nama_turnamen: "Mobile Legends Championship"
+              game: "Mobile Legends"
+              penyelenggara: "Esport Community Banyuwangi"
+              tanggal: "2026-10-15"
+              lokasi: "Banyuwangi"
+              hadiah: 10000000
+              status: "Pendaftaran Dibuka"
+
+      responses:
+
+        '201':
+          description: Turnamen berhasil ditambahkan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TurnamenResponse'
+
+        '400':
+          description: Data yang dikirim tidak valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '500':
+          description: Terjadi kesalahan pada server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+  /api/turnamen/{id}:
+
+    get:
+      tags:
+        - Turnamen
+      summary: Mengambil turnamen berdasarkan ID
+      description: Mengembalikan satu data turnamen berdasarkan ID.
+      operationId: getTurnamenById
+
+      parameters:
+
+        - name: id
+          in: path
+          description: ID turnamen
+          required: true
+          schema:
+            type: integer
+            example: 1
+
+      responses:
+
+        '200':
+          description: Data turnamen ditemukan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TurnamenResponse'
+
+        '404':
+          description: Turnamen tidak ditemukan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '500':
+          description: Terjadi kesalahan pada server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+    patch:
+      tags:
+        - Turnamen
+      summary: Memperbarui data turnamen
+      description: Mengubah data turnamen berdasarkan ID.
+      operationId: updateTurnamen
+
+      parameters:
+
+        - name: id
+          in: path
+          description: ID turnamen
+          required: true
+          schema:
+            type: integer
+            example: 1
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TurnamenUpdateInput'
+
+            example:
+              nama_turnamen: "Mobile Legends Championship 2026"
+              hadiah: 15000000
+              status: "Pendaftaran Ditutup"
+
+      responses:
+
+        '200':
+          description: Data turnamen berhasil diperbarui
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TurnamenResponse'
+
+        '400':
+          description: Data yang dikirim tidak valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '404':
+          description: Turnamen tidak ditemukan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '500':
+          description: Terjadi kesalahan pada server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+    delete:
+      tags:
+        - Turnamen
+      summary: Menghapus data turnamen
+      description: Menghapus turnamen berdasarkan ID.
+      operationId: deleteTurnamen
+
+      parameters:
+
+        - name: id
+          in: path
+          description: ID turnamen
+          required: true
+          schema:
+            type: integer
+            example: 1
+
+      responses:
+
+        '200':
+          description: Turnamen berhasil dihapus
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteResponse'
+
+        '404':
+          description: Turnamen tidak ditemukan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '500':
+          description: Terjadi kesalahan pada server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+components:
+
+  schemas:
+
+    Turnamen:
+      type: object
+      properties:
+
+        id:
+          type: integer
+          example: 1
+
+        nama_turnamen:
+          type: string
+          example: "Mobile Legends Championship"
+
+        game:
+          type: string
+          example: "Mobile Legends"
+
+        penyelenggara:
+          type: string
+          example: "Esport Community Banyuwangi"
+
+        tanggal:
+          type: string
+          format: date
+          example: "2026-10-15"
+
+        lokasi:
+          type: string
+          example: "Banyuwangi"
+
+        hadiah:
+          type: integer
+          example: 10000000
+
+        status:
+          type: string
+          example: "Pendaftaran Dibuka"
+
+
+    TurnamenInput:
+      type: object
+      required:
+        - nama_turnamen
+        - game
+        - penyelenggara
+        - tanggal
+        - lokasi
+        - hadiah
+        - status
+
+      properties:
+
+        nama_turnamen:
+          type: string
+          example: "Mobile Legends Championship"
+
+        game:
+          type: string
+          example: "Mobile Legends"
+
+        penyelenggara:
+          type: string
+          example: "Esport Community Banyuwangi"
+
+        tanggal:
+          type: string
+          format: date
+          example: "2026-10-15"
+
+        lokasi:
+          type: string
+          example: "Banyuwangi"
+
+        hadiah:
+          type: integer
+          example: 10000000
+
+        status:
+          type: string
+          example: "Pendaftaran Dibuka"
+
+
+    TurnamenUpdateInput:
+      type: object
+
+      properties:
+
+        nama_turnamen:
+          type: string
+          example: "Mobile Legends Championship 2026"
+
+        game:
+          type: string
+          example: "Mobile Legends"
+
+        penyelenggara:
+          type: string
+          example: "Esport Community Banyuwangi"
+
+        tanggal:
+          type: string
+          format: date
+          example: "2026-10-20"
+
+        lokasi:
+          type: string
+          example: "Banyuwangi Sport Center"
+
+        hadiah:
+          type: integer
+          example: 15000000
+
+        status:
+          type: string
+          example: "Pendaftaran Ditutup"
+
+
+    TurnamenResponse:
+      type: object
+
+      properties:
+
+        status:
+          type: string
+          example: "success"
+
+        data:
+          $ref: '#/components/schemas/Turnamen'
+
+
+    TurnamenListResponse:
+      type: object
+
+      properties:
+
+        status:
+          type: string
+          example: "success"
+
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Turnamen'
+
+
+    DeleteResponse:
+      type: object
+
+      properties:
+
+        status:
+          type: string
+          example: "success"
+
+        message:
+          type: string
+          example: "Turnamen berhasil dihapus"
+
+
+    ErrorResponse:
+      type: object
+
+      properties:
+
+        status:
+          type: string
+          example: "error"
+
+        message:
+          type: string
+          example: "Turnamen tidak ditemukan"
+```
