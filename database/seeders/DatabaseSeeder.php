@@ -3,23 +3,46 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
+/**
+ * Seeder akun demo untuk testing role.
+ * Modul 2 — 3 akun: super_admin, penyelenggara, peserta.
+ */
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $akunDemo = [
+            [
+                'name' => 'Super Admin',
+                'email' => 'admin@turnamen.test',
+                'role' => 'super_admin',
+            ],
+            [
+                'name' => 'Penyelenggara Turnamen',
+                'email' => 'penyelenggara@turnamen.test',
+                'role' => 'penyelenggara',
+            ],
+            [
+                'name' => 'Peserta Turnamen',
+                'email' => 'peserta@turnamen.test',
+                'role' => 'peserta',
+            ],
+        ];
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        foreach ($akunDemo as $akun) {
+            User::updateOrCreate(
+                ['email' => $akun['email']],
+                [
+                    'name' => $akun['name'],
+                    'password' => Hash::make('password'),
+                    'role' => $akun['role'],
+                    'status' => 'active',
+                    'email_verified_at' => now(),
+                ],
+            );
+        }
     }
 }

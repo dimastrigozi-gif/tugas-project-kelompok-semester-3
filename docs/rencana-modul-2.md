@@ -2,9 +2,12 @@
 
 ## Aktor & Portal
 
+> Catatan: prefix **URL** dan prefix **nama route** bedakan.
+> Prefix URL Peserta = `/turnamen`, sedangkan prefix nama route = `peserta.`.
+
 | Aktor | Portal | Fungsi |
 |-------|--------|--------|
-| Peserta | `/peserta` | Lihat turnamen, daftar, lihat jadwal |
+| Peserta | `/turnamen` | Lihat turnamen, daftar, lihat jadwal |
 | Penyelenggara | `/penyelenggara` | Bikin turnamen, verifikasi pendaftar |
 | Super Admin | `/admin` | Kelola user, game, sistem |
 
