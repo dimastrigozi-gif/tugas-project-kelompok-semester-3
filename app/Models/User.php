@@ -18,6 +18,8 @@ use Illuminate\Support\Str;
  * @property string $email
  * @property Carbon|null $email_verified_at
  * @property string $password
+ * @property string $role
+ * @property string $status
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
  * @property Carbon|null $two_factor_confirmed_at
@@ -25,7 +27,7 @@ use Illuminate\Support\Str;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'email', 'password', 'role', 'status'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -46,7 +48,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the user's initials
+     * Get the user's initials.
      */
     public function initials(): string
     {
@@ -55,5 +57,45 @@ class User extends Authenticatable
         return Str::length($initials) > 1
             ? Str::substr($initials, 0, 1).Str::substr($initials, -1)
             : $initials;
+    }
+
+    /**
+     * Cek apakah user punya role tertentu DAN statusnya aktif.
+     */
+    public function hasRole(string $role): bool
+    {
+        return $this->role === $role && $this->isActive();
+    }
+
+    /**
+     * Cek apakah user super admin.
+     */
+    public function isSuperAdmin(): bool
+    {
+        return $this->hasRole('super_admin');
+    }
+
+    /**
+     * Cek apakah user penyelenggara.
+     */
+    public function isPenyelenggara(): bool
+    {
+        return $this->hasRole('penyelenggara');
+    }
+
+    /**
+     * Cek apakah user peserta.
+     */
+    public function isPeserta(): bool
+    {
+        return $this->hasRole('peserta');
+    }
+
+    /**
+     * Cek apakah akun aktif.
+     */
+    public function isActive(): bool
+    {
+        return $this->status === 'active';
     }
 }
