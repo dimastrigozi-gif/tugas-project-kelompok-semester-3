@@ -1,0 +1,14 @@
+# Turnamen Esport — Sistem Informasi Turnamen
+
+## Prasyarat
+- PHP 8.3+
+- Composer
+- Node.js 20+
+- Git
+
+## Cara Menjalankan Project
+
+### 1. Clone repository
+```bash
+git clone https://github.com/dimastrigozi-gif/tugas-project-kelompok-semester-3.git
+cd tugas-project-kelompok-semester-3
