@@ -14,6 +14,10 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        // 1. Panggil seeder Game (Modul 3)
+        $this->call(GameSeeder::class);
+
+        // 2. Bikin 3 akun demo (Modul 2)
         $akunDemo = [
             [
                 'name' => 'Super Admin',
