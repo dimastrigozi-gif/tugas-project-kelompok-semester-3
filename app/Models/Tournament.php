@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Concerns\BelongsToTenant;
 
 class Tournament extends Model
 {
+    use BelongsToTenant;
     protected $fillable = [
         'id_penyelenggara', 'id_game', 'nama', 'deskripsi', 'jenis_game',
         'maks_peserta', 'biaya_daftar', 'hadiah', 'waktu_buka', 'waktu_tutup',

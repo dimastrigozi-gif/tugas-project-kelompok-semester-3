@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\EnsureUserHasRole;
+use App\Http\Middleware\SetTenantContext;
 use App\Support\Routing\PortalRoutes;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -12,7 +13,6 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
         then: function () {
-            // Portal routes — didaftarkan lewat PortalRoutes (Modul 2).
             PortalRoutes::customer(base_path('routes/customer.php'));
             PortalRoutes::tenant(base_path('routes/tenant.php'));
             PortalRoutes::admin(base_path('routes/admin.php'));
@@ -21,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'role' => EnsureUserHasRole::class,
+            'tenant' => SetTenantContext::class, // <--- INI YANG BARU
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

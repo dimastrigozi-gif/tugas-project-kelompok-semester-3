@@ -98,4 +98,12 @@ class User extends Authenticatable
     {
         return $this->status === 'active';
     }
+
+        /**
+     * Relasi: 1 User (Penyelenggara) punya banyak Turnamen.
+     */
+    public function tournaments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Tournament::class, 'id_penyelenggara');
+    }
 }

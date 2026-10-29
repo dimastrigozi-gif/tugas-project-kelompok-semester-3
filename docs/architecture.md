@@ -235,3 +235,13 @@ Tiap layout wajib:
 | Komponen Blade | `x-{komponen}` | `<x-status-badge>` |
 | Provider | `{NamaModul}ServiceProvider` | `TournamentServiceProvider` |
 | Test | `tests/Feature/{Topik}Test.php` | `ModularFoundationTest.php` |
+
+## Isolasi Tenant Berlapis (Modul 4)
+
+Empat lapis pertahanan keamanan data:
+1. **TenantContext** (scoped per request/job) — menyimpan identitas Penyelenggara aktif.
+2. **Global Scope (`BelongsToTenant`)** — otomatis memfilter query hanya untuk data milik Penyelenggara yang login.
+3. **Middleware (`SetTenantContext`)** — mengecek kepemilikan URL & status akun, serta memasang Context.
+4. **Policy (`TournamentPolicy`) + Scoped Route Binding** — mencegah akses/ubah data lintas Penyelenggara via URL atau payload.
+
+**Bypass Publik:** Katalog publik diakses via `PublicTournamentQuery` yang secara sadar melakukan `withoutGlobalScope('tenant')` namun menggantinya dengan filter `status IN ('buka', 'berjalan')`.

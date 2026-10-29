@@ -13,10 +13,15 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register(): void
-    {
-        //
-    }
+    
+   public function register(): void
+{
+    // Scoped: satu instance per request/job; direset di lifecycle berikutnya (tidak bocor).
+    $this->app->scoped(
+        \App\Support\Tenancy\TenantContext::class,
+        fn (): \App\Support\Tenancy\TenantContext => new \App\Support\Tenancy\TenantContext,
+    );
+}
 
     /**
      * Bootstrap any application services.
